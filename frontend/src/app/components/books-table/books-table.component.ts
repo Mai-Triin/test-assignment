@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { Observable } from 'rxjs';
-import { Page } from '../../models/page';
+import {Component, OnInit} from '@angular/core';
+import {BookService} from '../../services/book.service';
+import {Observable} from 'rxjs';
+import {Page} from '../../models/page';
 import {Book} from "../../models/book";
 
 
@@ -12,18 +12,17 @@ import {Book} from "../../models/book";
 })
 
 export class BooksTableComponent implements OnInit {
-
   books$: Observable<Page<Book> | Error>;
+  displayedColumns: String[] = ['title', 'author', 'genre'];
 
   constructor(
     private bookService: BookService,
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
     this.books$ = this.bookService.getBooks({});
-    console.log(this.books$)
   }
 
 }

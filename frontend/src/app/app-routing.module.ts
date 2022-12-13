@@ -7,8 +7,9 @@ import { BooksTableComponent } from './components/books-table/books-table.compon
 const routes: Routes = [
   {path: '', redirectTo: 'books', pathMatch: 'full'},
   {path: 'books', component: BooksListComponent},
-  {path: 'books/:id', component: BookDetailComponent},
-  {path: 'books/table', component: BooksTableComponent}
+  {path: 'books', redirectTo: 'books/table', pathMatch: 'full'},
+  {path: 'books/table', component: BooksTableComponent},
+  {path: 'books/:id', component: BookDetailComponent}
 ];
 
 @NgModule({
