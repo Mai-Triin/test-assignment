@@ -1,41 +1,39 @@
 import {Component, OnInit} from '@angular/core';
-import {BookService} from '../../services/book.service';
-import {Book} from "../../models/book";
 import {PageEvent} from "@angular/material/paginator";
 import {Sort} from "@angular/material/sort";
+import {CheckoutService} from "../../services/checkout.service";
+import {CheckOut} from "../../models/checkout";
 
 
 @Component({
-  selector: 'app-books-table',
-  templateUrl: './books-table.component.html',
-  styleUrls: ['./books-table.component.scss']
+  selector: 'app-checkouts-table',
+  templateUrl: './checkouts-table.component.html',
+  styleUrls: ['./checkouts-table.component.scss']
 })
 
-export class BooksTableComponent implements OnInit {
-  books: Book [] = [];
+export class CheckoutsTableComponent implements OnInit {
+  checkOuts: CheckOut [] = [];
   pageIndex: string;
   pageSize: string;
   sort: string;
   direction: string;
-  displayedColumns: String[] = ['title', 'author', 'genre', 'status'];
+  displayedColumns: String[] = ['borrowerFirstName', 'borrowerLastName', 'borrowedBook', 'dueDate'];
   totalElements: number = 0;
 
   constructor(
-    private bookService: BookService,
+    private checkOutService: CheckoutService,
   ) {
   }
 
-
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.getAllBooks({pageIndex: "0", pageSize: "20", sort: '', direction: ''})
-
+    this.getAllCheckOuts({pageIndex: "0", pageSize: "20", sort: '', direction: ''})
   }
 
-  private getAllBooks(request) {
-    this.bookService.getBooks(request)
+  private getAllCheckOuts(request) {
+    this.checkOutService.getCheckOuts(request)
       .subscribe(data => {
-          this.books = data['content'];
+          this.checkOuts = data['content'];
           this.totalElements = data['totalElements'];
         }
         , error => {
@@ -52,7 +50,7 @@ export class BooksTableComponent implements OnInit {
     request['pageSize'] = event.pageSize.toString();
     request['sort'] = this.sort;
     request['direction'] = this.direction;
-    this.getAllBooks(request);
+    this.getAllCheckOuts(request);
   }
 
   announceSortChange(event: Sort) {
@@ -63,6 +61,6 @@ export class BooksTableComponent implements OnInit {
     request['direction'] = event.direction;
     request['pageIndex'] = this.pageIndex;
     request['pageSize'] = this.pageSize;
-    this.getAllBooks(request);
+    this.getAllCheckOuts(request);
   }
 }
