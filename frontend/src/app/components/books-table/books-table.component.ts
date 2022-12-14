@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BookService} from '../../services/book.service';
-import {Observable} from 'rxjs';
-import {Page} from '../../models/page';
 import {Book} from "../../models/book";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatSort, Sort} from "@angular/material/sort";
 
 
 @Component({
@@ -29,7 +27,7 @@ export class BooksTableComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.getBooks({pageIndex: "0", pageSize: "20"})
+    this.getBooks({pageIndex: "0", pageSize: "20", sort: '', direction: ''})
 
   }
 
@@ -49,7 +47,13 @@ export class BooksTableComponent implements OnInit {
     const request = {};
     request['pageIndex'] = event.pageIndex.toString();
     request['pageSize'] = event.pageSize.toString();
+    this.getBooks(request);
+  }
 
+  announceSortChange(event: Sort) {
+    const request = {};
+    request['sort'] = event.active;
+    request['direction'] = event.direction;
     this.getBooks(request);
   }
 }

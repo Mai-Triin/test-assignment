@@ -1,5 +1,5 @@
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="books" matSort>
+  <table mat-table [dataSource]="books" matSort (matSortChange)="announceSortChange($event)">
 
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>
