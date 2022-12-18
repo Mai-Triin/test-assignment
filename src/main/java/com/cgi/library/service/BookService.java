@@ -36,4 +36,12 @@ public class BookService {
     public void deleteBook(UUID bookId) {
         bookRepository.deleteById(bookId);
     }
+
+    public Page<BookDTO> getBooksBySearchString(Pageable pageable, String searchString) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        if (searchString == null) {
+            return bookRepository.findAll(pageable).map(book -> modelMapper.map(book, BookDTO.class));
+        }
+        return bookRepository.search(pageable, searchString).map(book -> modelMapper.map(book, BookDTO.class));
+    }
 }

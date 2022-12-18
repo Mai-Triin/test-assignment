@@ -18,6 +18,12 @@ export class BookService {
   ) {
   }
 
+  searchBooks(searchString: string, filter: Partial<PageRequest>): Observable<Page<Book> | Error> {
+    const url = this.baseUrl + '/searchBooks?searchString=' + searchString;
+    const params = RestUtil.buildParamsFromPageRequest(filter);
+    return this.http.get<Page<Book>>(url, {params});
+  }
+
   getBooks(filter: Partial<PageRequest>): Observable<Page<Book> | Error> {
     const url = this.baseUrl + '/getBooks';
     const params = RestUtil.buildParamsFromPageRequest(filter);

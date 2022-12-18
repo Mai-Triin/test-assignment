@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {BookService} from '../../services/book.service';
 import {Book} from "../../models/book";
 import {PageEvent} from "@angular/material/paginator";
-import {Sort} from "@angular/material/sort";
-
 
 @Component({
   selector: 'app-books-table',
@@ -19,6 +17,8 @@ export class BooksTableComponent implements OnInit {
   direction: string;
   displayedColumns: String[] = ['title', 'author', 'genre', 'status'];
   totalElements: number = 0;
+  status: string;
+  searchString: string;
 
   constructor(
     private bookService: BookService,
@@ -29,7 +29,21 @@ export class BooksTableComponent implements OnInit {
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
     this.getAllBooks({pageIndex: "0", pageSize: "20", sort: '', direction: ''})
+  }
 
+  private searchBooks() {
+    const request = {};
+    request['pageIndex'] = this.pageIndex != null ? this.pageIndex.toString() : '0';
+    request['pageSize'] = this.pageSize != null ?  this.pageSize.toString() : '20';
+    request['sort'] = this.sort;
+    request['direction'] = this.direction;
+    this.bookService.searchBooks(this.searchString, request)
+      .subscribe(data => {
+        this.books = data['content']
+      }
+        , error => {
+          console.log(error.error.message);
+        });
   }
 
   private getAllBooks(request) {
@@ -52,17 +66,6 @@ export class BooksTableComponent implements OnInit {
     request['pageSize'] = event.pageSize.toString();
     request['sort'] = this.sort;
     request['direction'] = this.direction;
-    this.getAllBooks(request);
-  }
-
-  announceSortChange(event: Sort) {
-    const request = {};
-    this.sort = event.active;
-    this.direction = event.direction;
-    request['sort'] = event.active;
-    request['direction'] = event.direction;
-    request['pageIndex'] = this.pageIndex;
-    request['pageSize'] = this.pageSize;
     this.getAllBooks(request);
   }
 }

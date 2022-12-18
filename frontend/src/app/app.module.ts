@@ -10,6 +10,8 @@ import { BookDetailComponent } from './components/book-detail/book-detail.compon
 import { HttpClientModule } from '@angular/common/http';
 import { BooksTableComponent } from "./components/books-table/books-table.component";
 import {CheckoutsTableComponent} from "./components/checkouts-table/checkouts-table.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import {CheckoutsTableComponent} from "./components/checkouts-table/checkouts-ta
     CheckoutsTableComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

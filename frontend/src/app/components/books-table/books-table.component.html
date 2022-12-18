@@ -1,4 +1,16 @@
-<table mat-table [dataSource]="books" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+<div class="mat-toolbar-row filter-style">
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput type="text"
+           class="form-control"
+           name="searchString"
+           placeholder="Type to search..."
+           (keyup)="searchBooks()" #input
+           [(ngModel)]="searchString">
+  </mat-form-field>
+
+</div>
+<table mat-table [dataSource]="books" matSort class="mat-elevation-z8">
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Title</th>
     <td mat-cell *matCellDef="let book"> {{book.title}} </td>
@@ -21,9 +33,12 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the search data "{{input.value}}"</td>
+  </tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" [pageSize]="20"
                [length]="totalElements" (page)="nextPage($event)"
                aria-label="Select page of users"></mat-paginator>
-

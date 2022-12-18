@@ -17,6 +17,11 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    @GetMapping(value = "searchBooks")
+    public ResponseEntity<Page<BookDTO>> getBooksBySearchString(Pageable pageable, @RequestParam(value = "searchString") String searchString) {
+        return ResponseEntity.ok(bookService.getBooksBySearchString(pageable, searchString));
+    }
+
     @GetMapping(value = "getBooks")
     public ResponseEntity<Page<BookDTO>> getBooks(Pageable pageable) {
         return ResponseEntity.ok(bookService.getBooks(pageable));
